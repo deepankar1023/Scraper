@@ -13,6 +13,7 @@ import random
 import uuid
 from datetime import datetime
 from config.config import TWITTER_USERNAME, TWITTER_PASSWORD
+from pyvirtualdisplay import Display
 
 class TwitterScraper:
     def __init__(self):
@@ -36,7 +37,6 @@ class TwitterScraper:
     def setup_driver(self):
         """Set up Chrome driver with anti-detection options"""
         chrome_options = Options()
-
         # Basic options
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--headless')
@@ -135,7 +135,6 @@ class TwitterScraper:
                 )
                 next_button.click()
 
-
                 self.human_like_delay()
 
                 password_input = WebDriverWait(driver, 10).until(
@@ -212,6 +211,7 @@ class TwitterScraper:
                         self.logger.error(f"Error closing driver: {str(e)}")
 
         return []
+
 
 if __name__ == '__main__':
     try:
