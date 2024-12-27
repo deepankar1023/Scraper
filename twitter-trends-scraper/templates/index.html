@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Twitter Trends Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Twitter Trends Scraper</h1>
+        <button onclick="scrapeTrends()">Scrape Trends</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function scrapeTrends() {
+            document.getElementById('results').innerHTML = 'Scraping trends...';
+            
+            fetch('/scrape')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        let html = `
+                            <h2>Results</h2>
+                            <p>ID: ${data.data.unique_id}</p>
+                            <p>Time: ${data.data.timestamp}</p>
+                            <p>IP: ${data.data.ip_address}</p>
+                            <h3>Trends:</h3>
+                            <ol>
+                                <li>${data.data.trend1}</li>
+                                <li>${data.data.trend2}</li>
+                                <li>${data.data.trend3}</li>
+                                <li>${data.data.trend4}</li>
+                                <li>${data.data.trend5}</li>
+                            </ol>
+                        `;
+                        document.getElementById('results').innerHTML = html;
+                    } else {
+                        document.getElementById('results').innerHTML = 'Error: ' + data.message;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('results').innerHTML = 'Error: ' + error;
+                });
+        }
+    </script>
+</body>
+</html>
